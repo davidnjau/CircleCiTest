@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
-            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-Sc281-6736/2014
+            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
             docker build -t $IMAGE_NAME .
             docker push $IMAGE_NAME:latest
 workflows:
