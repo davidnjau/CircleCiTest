@@ -13,18 +13,23 @@ executors:
 
 jobs:
   build:
+    working_directory: ~/CircleCI
     docker:
       - image: cimg/openjdk:11.0
     steps:
-      - checkout
+      - checkout:
+          path: ~/CircleCI
+
       - run:
           name: Build Jar File
           command: mvn install
 
   deploy:
     executor: docker-publisher
-    working_directory: ~/project
+    working_directory: ~/CircleCI
     steps:
+      - checkout:
+          path: ~/CircleCI
       - setup_remote_docker
       - run:
           name: Build Docker Image
