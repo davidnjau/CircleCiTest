@@ -11,8 +11,6 @@ executors:
           username: davidnjau21
           password: Sc281-6736/2014
 
-    working_directory: /project
-
 jobs:
   build:
     executor: docker-publisher
@@ -32,7 +30,7 @@ jobs:
     executor: docker-publisher
     steps:
       - attach_workspace:
-          at: /project/jarfiles
+          at: /jarfiles
       - setup_remote_docker
       - run:
           name: Build Docker Image
