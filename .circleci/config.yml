@@ -29,20 +29,30 @@ jobs:
           paths:
             - target/
 
-#
-#  deploy:
-#    executor: docker-publisher
-#    steps:
-#      - setup_remote_docker
-#      - run:
-#          name: Build Docker Image
-#          command: |
-#            docker build -t davidnjau21/circleci .
-#            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
-#            docker push davidnjau21/circleci:latest
-#            docker logout
+  deploy:
+    docker:
+      - image: cimg/openjdk:17.0.1
+        auth:
+          username: davidnjau21
+          password: Sc281-6736/2014
+    steps:
+      - setup_remote_docker
+      - checkout
+      - attach_workspace:
+          at: /target/
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t davidnjau21/circleci .
+            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
+            docker push davidnjau21/circleci:latest
+            docker logout
 
 workflows:
+  version: 2
   buildJarFile:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
