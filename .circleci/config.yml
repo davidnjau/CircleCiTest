@@ -16,14 +16,13 @@ jobs:
     executor: docker-publisher
     steps:
       - checkout
-      - run: mkdir -p /jarfiles
       - run:
           name: Build Jar File
-          command: mvn install > jarfiles/build
+          command: mvn install > jars
       - persist_to_workspace:
-          root: jarfiles
+          root: jars
           paths:
-            - build
+            - .
 
   deploy:
     working_directory: ~/CircleCI
