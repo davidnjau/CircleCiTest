@@ -6,28 +6,33 @@ executors:
     environment:
       IMAGE_NAME: davidnjau21/circleci
     docker:
-      - image: circleci/node:latest
+      - image: cimg/openjdk:11.0
         auth:
           username: davidnjau21
           password: Sc281-6736/2014
 
+    working_directory: /tmp
+
 jobs:
   build:
-    working_directory: ~/CircleCI
-    docker:
-      - image: cimg/openjdk:11.0
+    executor: docker-publisher
     steps:
-      - checkout:
-          path: ~/CircleCI
-
+      - checkout
+      - run: mkdir -p /jarfiles
       - run:
           name: Build Jar File
-          command: mvn install
+          command: mvn install > jarfiles/build
+      - persist_to_workspace:
+          root: jarfiles
+          paths:
+            - build
 
   deploy:
-    executor: docker-publisher
     working_directory: ~/CircleCI
+    executor: docker-publisher
     steps:
+      - attach_workspace:
+          at: /tmp/jarfiles
       - setup_remote_docker
       - run:
           name: Build Docker Image
