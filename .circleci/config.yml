@@ -41,5 +41,4 @@ workflows:
   buildJarFile:
     jobs:
       - build
-      - deploy:
-          depends_on: build
+      - deploy
