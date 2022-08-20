@@ -19,15 +19,16 @@ jobs:
         auth:
           username: davidnjau21
           password: Sc281-6736/2014
+
+    working_directory: ~/project
     steps:
       - checkout
       - run:
           name: Build Jar File
           command: mvn install
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - target/
+      - store_artifacts:
+          path: /tmp/artifacts
+
 
   deploy:
     docker:
@@ -38,8 +39,6 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - attach_workspace:
-          at: ./target
       - run:
           name: Build Docker Image
           command: |
@@ -53,6 +52,6 @@ workflows:
   buildJarFile:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
+#      - deploy:
+#          requires:
+#            - build
