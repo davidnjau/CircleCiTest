@@ -38,10 +38,4 @@ workflows:
   build-master:
     jobs:
       - build
-      - publishLatestToHub:
-          name: Deploy to Docker Hub
-          env: test
-          requires: [ build ]
-          filters:
-            branches:
-              only: main
+      - publishLatestToHub
