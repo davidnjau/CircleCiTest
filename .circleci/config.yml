@@ -20,27 +20,24 @@ jobs:
           name: Build
           command: mvn install
 
-  publishLatestToHub:
-    executor: docker-publisher
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Publish Docker Image to Docker Hub
-          command: |
-            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
-            docker build -t $IMAGE_NAME .
-            docker push $IMAGE_NAME:latest
-
+      publishLatestToHub:
+        executor: docker-publisher
+        steps:
+          - checkout
+          - setup_remote_docker
+          - run:
+              name: Publish Docker Image to Docker Hub
+              command: |
+                echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
+                docker build -t $IMAGE_NAME .
+                docker push $IMAGE_NAME:latest
 
 workflows:
   version: 2
   build-master:
     jobs:
       - buildJarFile
-      - publishLatestToHub:
-          requires:
-            - buildJarFile
+
       - filters:
           branches:
             only:
