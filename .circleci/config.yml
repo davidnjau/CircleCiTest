@@ -11,7 +11,7 @@ executors:
 
 jobs:
 
-  build:
+  buildJarFile:
     docker:
       - image: cimg/openjdk:11.0
     steps:
@@ -37,11 +37,11 @@ workflows:
   version: 2
   build-master:
     jobs:
-      - build
+      - buildJarFile
       - publishLatestToHub:
           requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
+            - buildJarFile
+      - filters:
+          branches:
+            only:
+              - main
