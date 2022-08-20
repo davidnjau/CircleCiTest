@@ -1,14 +1,28 @@
 version: 2.1
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: davidnjau21/circleci
+    docker:
+      - image: circleci/node:latest
+        auth:
+          username: davidnjau21
+          password: Sc281-6736/2014
+
 jobs:
 
   build:
+
     docker:
       - image: cimg/openjdk:11.0
+
     steps:
       - checkout
       - run:
           name: Build Jar File
           command: mvn install
+
+      - setup_remote_docker
       - run:
           name: Build Docker Image
           command: |
