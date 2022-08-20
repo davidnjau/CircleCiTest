@@ -1,46 +1,48 @@
-orbs:
-  docker: circleci/docker@1.5.0
-version: 2.1
+version: 2
+
 executors:
-  docker-publisher:
-    environment:
-      IMAGE_NAME: davidnjau21/circleci
+  my-executor:
     docker:
-      - image: cimg/openjdk:11.0
+      - image: buildpack-deps:jessie
         auth:
           username: davidnjau21
-          password: Sc281-6736/2014
+          password: Sc281-6736/2014  # context / project UI env-var reference
+    working_directory: /tmp
 
 jobs:
-  build:
-    executor: docker-publisher
+  flow:
+    executor: my-executor
     steps:
-      - checkout
-      - run:
-          name: Build Jar File
-          command: mvn install > jars
-      - persist_to_workspace:
-          root: jars
-          paths:
-            - .
+      - run: mkdir -p workspace
+      - run: echo "Hello, world!" > workspace/echo-output
 
-  deploy:
-    working_directory: ~/CircleCI
-    executor: docker-publisher
+      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: workspace
+          # Must be relative path from root
+          paths:
+            - echo-output
+
+  downstream:
+    executor: my-executor
     steps:
       - attach_workspace:
-          at: /jarfiles
-      - setup_remote_docker
-      - run:
-          name: Build Docker Image
-          command: |
-            docker build -t davidnjau21/circleci .
-            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
-            docker push davidnjau21/circleci:latest
-            docker logout
+          # Must be absolute path or relative path from working_directory
+          at: /tmp/workspace
+
+      - run: |
+          if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
+            echo "It worked!";
+          else
+            echo "Nope!"; exit 1
+          fi
 
 workflows:
-  buildJarFile:
+  btd:
     jobs:
-      - build
-      - deploy
+      - flow
+      - downstream:
+          requires:
+            - flow
