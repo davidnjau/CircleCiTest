@@ -15,29 +15,17 @@ executors:
 jobs:
   build:
     docker:
-      - image: cimg/openjdk:11.0
-        auth:
-          username: davidnjau21
-          password: Sc281-6736/2014
-
-    working_directory: ~/project
-    steps:
-      - checkout
-      - run:
-          name: Build Jar File
-          command: mvn install
-          store_artifacts:
-            - /tmp/artifacts
-
-  deploy:
-    docker:
       - image: cimg/openjdk:17.0.1
         auth:
           username: davidnjau21
           password: Sc281-6736/2014
+
     steps:
       - setup_remote_docker
       - checkout
+      - run:
+          name: Build Jar File
+          command: mvn install
       - run:
           name: Build Docker Image
           command: |
@@ -51,6 +39,3 @@ workflows:
   buildJarFile:
     jobs:
       - build
-#      - deploy:
-#          requires:
-#            - build
