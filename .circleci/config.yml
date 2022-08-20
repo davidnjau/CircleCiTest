@@ -1,47 +1,17 @@
 version: 2.1
-executors:
-  docker-publisher:
-    environment:
-      IMAGE_NAME: ndukwearm19docker/docker-node-app
-    docker:
-      - image: circleci/node:latest
-        auth:
-          username: davidnjau21
-          password: Sc281-6736/2014
-
 jobs:
 
-  buildJarFile:
+  build:
     docker:
       - image: cimg/openjdk:11.0
     steps:
       - checkout
       - run:
           name: Build
-          command: mvn install
-
-
-
-#  publishLatestToHub:
-#    executor: docker-publisher
-#    steps:
-#      - checkout
-#      - setup_remote_docker
-#      - run:
-#          name: Publish Docker Image to Docker Hub
-#          command: |
-#            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
-#            docker build -t $IMAGE_NAME .
-#            docker push $IMAGE_NAME:latest
-
+          command: mvn -B -DskipTests clean package
 
 workflows:
-  version: 2
-  buildJarFile:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - buildJarFile
-
-      - filters:
-          branches:
-            only:
-              - main
+      - build
