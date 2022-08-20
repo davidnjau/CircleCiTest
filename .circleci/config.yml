@@ -25,7 +25,7 @@ jobs:
           name: Build Jar File
           command: mvn install
       - persist_to_workspace:
-          root: /
+          root: ./
           paths:
             - target/
 
@@ -39,7 +39,7 @@ jobs:
       - setup_remote_docker
       - checkout
       - attach_workspace:
-          at: /target/
+          at: ./target
       - run:
           name: Build Docker Image
           command: |
