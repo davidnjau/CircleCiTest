@@ -1,48 +1,48 @@
-version: 2
-
+orbs:
+  docker: circleci/docker@1.5.0
+version: 2.1
 executors:
-  my-executor:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: davidnjau21/circleci
+      DOCKERHUB_PASSWORD: Sc281-6736/2014
     docker:
-      - image: buildpack-deps:jessie
+      - image: circleci/node:latest
         auth:
           username: davidnjau21
-          password: Sc281-6736/2014  # context / project UI env-var reference
-    working_directory: /tmp
+          password: Sc281-6736/2014
 
 jobs:
-  flow:
-    executor: my-executor
+  build:
+    docker:
+      - image: cimg/openjdk:11.0
+        auth:
+          username: davidnjau21
+          password: Sc281-6736/2014
     steps:
-      - run: mkdir -p workspace
-      - run: echo "Hello, world!" > workspace/echo-output
-
-      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
+      - checkout
+      - run:
+          name: Build Jar File
+          command: mvn install
       - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
-          # taken to be the root directory of the workspace.
-          root: workspace
-          # Must be relative path from root
+          root: ./
           paths:
-            - echo-output
+            - target/
 
-  downstream:
-    executor: my-executor
-    steps:
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: /tmp/workspace
-
-      - run: |
-          if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
-            echo "It worked!";
-          else
-            echo "Nope!"; exit 1
-          fi
+#
+#  deploy:
+#    executor: docker-publisher
+#    steps:
+#      - setup_remote_docker
+#      - run:
+#          name: Build Docker Image
+#          command: |
+#            docker build -t davidnjau21/circleci .
+#            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
+#            docker push davidnjau21/circleci:latest
+#            docker logout
 
 workflows:
-  btd:
+  buildJarFile:
     jobs:
-      - flow
-      - downstream:
-          requires:
-            - flow
+      - build
