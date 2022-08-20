@@ -38,4 +38,10 @@ workflows:
   build-master:
     jobs:
       - build
-      - publishLatestToHub
+      - publishLatestToHub:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
