@@ -1,3 +1,5 @@
+orbs:
+  docker: circleci/docker@1.5.0
 version: 2.1
 executors:
   docker-publisher:
@@ -10,27 +12,28 @@ executors:
           password: Sc281-6736/2014
 
 jobs:
-
   build:
-
     docker:
       - image: cimg/openjdk:11.0
-
     steps:
       - checkout
       - run:
           name: Build Jar File
           command: mvn install
 
+  deploy:
+    executor: docker-publisher
+    steps:
       - setup_remote_docker
       - run:
           name: Build Docker Image
           command: |
             docker build -t davidnjau21/circleci .
             echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
-            docker push $IMAGE_NAME:latest
+            docker push davidnjau21/circleci:latest
             docker logout
 workflows:
   buildJarFile:
     jobs:
       - build
+      - deploy
