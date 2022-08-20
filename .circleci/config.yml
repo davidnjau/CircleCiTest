@@ -7,8 +7,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build
+          name: Build Jar File
           command: mvn install
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t davidnjau21/circleci .
 
 workflows:
   buildJarFile:
