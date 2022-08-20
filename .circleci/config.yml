@@ -28,8 +28,6 @@ jobs:
     executor: docker-publisher
     working_directory: ~/CircleCI
     steps:
-      - checkout:
-          path: ~/CircleCI
       - setup_remote_docker
       - run:
           name: Build Docker Image
@@ -43,4 +41,5 @@ workflows:
   buildJarFile:
     jobs:
       - build
-      - deploy
+      - deploy:
+          depends_on: build
