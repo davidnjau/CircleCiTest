@@ -17,6 +17,9 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
       - setup_remote_docker
       - run:
           name: Publish Docker Image to Docker Hub
