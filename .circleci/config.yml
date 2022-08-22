@@ -34,10 +34,19 @@ jobs:
             docker push davidnjau21/circleci:latest
             docker logout
 
-
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      -checkout
+      -run:
+        name: SSH to server
+        command: |
+          echo "ns389NBG8qohUT9bC1" | ssh david@199.192.27.107 --password-stdin
 
 workflows:
   version: 2
   buildJarFile:
     jobs:
       - build
+      - deploy
