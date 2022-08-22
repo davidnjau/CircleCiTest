@@ -42,7 +42,8 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            echo "ns389NBG8qohUT9bC1" | ssh david@199.192.27.107 --password-stdin "mkdir xxx"
+            echo "ns389NBG8qohUT9bC1" | ssh david@199.192.27.107 --password-stdin
+            mkdir xxx
             exit
 
 
