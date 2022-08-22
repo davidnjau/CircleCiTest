@@ -34,18 +34,6 @@ jobs:
             docker push davidnjau21/circleci:latest
             docker logout
 
-  deploy:
-    executor: docker-publisher
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Deploy Over SSH
-          command: |
-            echo "ns389NBG8qohUT9bC1" | ssh david@199.192.27.107 --password-stdin
-            mkdir xxx
-            exit
-
 
 
 workflows:
@@ -53,9 +41,3 @@ workflows:
   buildJarFile:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: main
