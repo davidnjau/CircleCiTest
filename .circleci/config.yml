@@ -35,14 +35,15 @@ jobs:
             docker logout
 
   deploy:
-    docker:
-      - image: cimg/node:14.18.2
+    executor: docker-publisher
+    machine:
+      enabled: true
     steps:
       - run: sudo apt install rsync
       - run:
           name: SSH into remote server
           command: |
-            rsync -avz -e "ssh" --progress build david@199.192.27.107:build
+            sshpass -p PASSWORD ssh USER@SERVER
 
 
 workflows:
