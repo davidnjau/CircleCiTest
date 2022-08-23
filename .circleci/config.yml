@@ -43,7 +43,7 @@ jobs:
       - run:
           name: SSH into remote server
           command: |
-            sshpass -p ns389NBG8qohUT9bC1 ssh root@199.192.27.107 'export KUBECONFIG=/etc/rancher/rke2/rke2.yaml && kubectl apply -f circle_test.yaml -n default && sleep 5'
+            sshpass -p ns389NBG8qohUT9bC1 ssh root@199.192.27.107 'export KUBECONFIG=/etc/rancher/rke2/rke2.yaml && kubectl apply -f circle_test.yaml -n default && sleep 6'
 
 
 workflows:
