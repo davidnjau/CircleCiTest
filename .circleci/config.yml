@@ -43,12 +43,16 @@ jobs:
       - run:
           name: SSH into remote server
           command: |
-            sshpass -p ns389NBG8qohUT9bC1 ssh root@199.192.27.107 'export KUBECONFIG=/etc/rancher/rke2/rke2.yaml && kubectl apply -f nginx.yaml -n default && sleep 5'
+            sshpass -p ns389NBG8qohUT9bC1 ssh root@199.192.27.107 'export KUBECONFIG=/etc/rancher/rke2/rke2.yaml && kubectl apply -f circle_test.yaml -n default && sleep 5'
 
 
 workflows:
   version: 2
   buildJarFile:
     jobs:
-      - deploy
+      - build
+      - deploy:
+          requires:
+            - build
+
 
