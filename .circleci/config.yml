@@ -35,14 +35,17 @@ jobs:
             docker logout
 
   deploy:
-    machine:
-      enabled: true
+    docker:
+      - image: cimg/openjdk:17.0.1
+        auth:
+          username: davidnjau21
+          password: Sc281-6736/2014
     steps:
-      -checkout
-      -run:
-        name: SSH to server
-        command: |
-          echo "ns389NBG8qohUT9bC1" | ssh david@199.192.27.107 --password-stdin
+      - run:
+          name: SSH into remote server
+          command: |
+            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
+
 
 workflows:
   version: 2
