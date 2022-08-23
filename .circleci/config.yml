@@ -35,15 +35,14 @@ jobs:
             docker logout
 
   deploy:
-    executor: docker-publisher
     machine:
-      enabled: true
+      image: ubuntu-2004:202010-01
     steps:
       - run: sudo apt install rsync
       - run:
           name: SSH into remote server
           command: |
-            sshpass -p PASSWORD ssh USER@SERVER
+            sshpass -p ns389NBG8qohUT9bC1 ssh david@199.192.27.107
 
 
 workflows:
