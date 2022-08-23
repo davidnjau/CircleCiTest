@@ -39,10 +39,11 @@ jobs:
       image: ubuntu-2004:202010-01
     steps:
       - run: sudo apt install rsync
+      - run: sudo apt-get install sshpass
       - run:
           name: SSH into remote server
           command: |
-            ssh -p ns389NBG8qohUT9bC1 ssh david@199.192.27.107
+            sshpass -p ns389NBG8qohUT9bC1 ssh david@199.192.27.107
 
 
 workflows:
