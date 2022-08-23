@@ -44,7 +44,7 @@ jobs:
       - run:
           name: SSH into remote server
           command: |
-            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
+            echo "ns389NBG8qohUT9bC1" | ssh david@199.192.27.107 --password-stdin
 
 
 workflows:
