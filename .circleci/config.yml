@@ -52,4 +52,6 @@ workflows:
   buildJarFile:
     jobs:
       - build
-      - deploy
+      - deploy:
+          requires:
+            - build
