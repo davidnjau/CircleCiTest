@@ -42,7 +42,7 @@ jobs:
       - run:
           name: SSH into remote server
           command: |
-            sshpass -p ns389NBG8qohUT9bC1 ssh david@199.192.27.107
+            ssh -p ns389NBG8qohUT9bC1 ssh david@199.192.27.107
 
 
 workflows:
