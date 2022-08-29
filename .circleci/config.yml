@@ -34,17 +34,17 @@ jobs:
             docker push davidnjau21/circleci:latest
             docker logout
 
-  deploy:
-    machine:
-      image: ubuntu-2004:202010-01
-    steps:
-      - run: sudo apt install rsync
-      - run: sudo apt-get install sshpass
-      - run:
-          name: SSH into remote server
-          command: |
-#            sshpass -p ns389NBG8qohUT9bC1 ssh root@199.192.27.107 'export KUBECONFIG=/etc/rancher/rke2/rke2.yaml && kubectl apply -f circle_test.yaml -n default && sleep 6'
-            sshpass -p bitri@2022 ssh dnjau@botswanaemrdev.intellisoftkenya.com 'docker run -d davidnjau21/circleci && sleep 6'
+#  deploy:
+#    machine:
+#      image: ubuntu-2004:202010-01
+#    steps:
+#      - run: sudo apt install rsync
+#      - run: sudo apt-get install sshpass
+#      - run:
+#          name: SSH into remote server
+#          command: |
+##            sshpass -p ns389NBG8qohUT9bC1 ssh root@199.192.27.107 'export KUBECONFIG=/etc/rancher/rke2/rke2.yaml && kubectl apply -f circle_test.yaml -n default && sleep 6'
+#            sshpass -p bitri@2022 ssh dnjau@botswanaemrdev.intellisoftkenya.com 'docker run -d davidnjau21/circleci && sleep 6'
 
 
 workflows:
