@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@org.springframework.stereotype.Controller
+@RestController
 public class Controller {
 
 
@@ -12,5 +12,11 @@ public class Controller {
     public String uploadApk() {
 
         return "index";
+    }
+
+    //Get request
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello World!";
     }
 }
