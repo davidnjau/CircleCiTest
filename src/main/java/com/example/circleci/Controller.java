@@ -11,7 +11,7 @@ public class Controller {
     @RequestMapping(value = "/")
     public String uploadApk() {
 
-        return "index";
+        return "Index Data";
     }
 
     //Get request
