@@ -30,7 +30,7 @@ jobs:
           name: Build Docker and push Image
           command: |
             docker build -t davidnjau21/circleci .
-            echo "Sc281-6736/2014" | docker login -u "davidnjau21" --password-stdin
+#            echo "password" | docker login -u "davidnjau21" --password-stdin
             docker push davidnjau21/circleci:latest
             docker logout
 
